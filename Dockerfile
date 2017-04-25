@@ -3,6 +3,9 @@ FROM debian:jessie
 # Updating system
 RUN apt-get update -y
 
+# Installing basic binnaries
+RUN apt-get install -y wget curl zip unzip git
+
 # Installing Apache 2.4
 RUN apt-get install -y apache2
 
@@ -11,18 +14,14 @@ RUN echo "" >> /etc/apache2/apache2.conf && \
 	echo "# ServerName" >> /etc/apache2/apache2.conf && \
 	echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Adding Dotdeb repository so we may install PHP 7
-RUN apt-get install -y wget curl zip unzip git && \
-	echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list && \
-	echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list && \
-	cd /tmp && \
-	wget https://www.dotdeb.org/dotdeb.gpg && \
-	apt-key add dotdeb.gpg && \
-	rm dotdeb.gpg && \
-	apt-get update -y
+# Adding PHP 7.1 repository
+RUN apt-get install -y apt-transport-https lsb-release ca-certificates && \
+	wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
+	echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
+	apt-get update
 
 # Installing PHP as well as some extensions
-RUN apt-get install -y php7.0 php7.0-cli php7.0-common php7.0-dom php7.0-mysql php7.0-xdebug php7.0-mcrypt php7.0-mbstring php7.0-zip php7.0-bcmath libapache2-mod-php7.0
+RUN apt-get install -y php7.1 php7.1-cli php7.1-common php7.1-dom php7.1-mysql php7.1-xdebug php7.1-mcrypt php7.1-mbstring php7.1-zip php7.1-bcmath libapache2-mod-php7.1
 
 # Enabling apache mod Rewrite
 RUN a2enmod rewrite
