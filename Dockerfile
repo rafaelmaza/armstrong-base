@@ -21,7 +21,7 @@ RUN apt-get install -y apt-transport-https lsb-release ca-certificates && \
 	apt-get update
 
 # Installing PHP as well as some extensions
-RUN apt-get install -y php7.1 php7.1-cli php7.1-common php7.1-dom php7.1-mysql php7.1-xdebug php7.1-mcrypt php7.1-mbstring php7.1-zip php7.1-bcmath libapache2-mod-php7.1
+RUN apt-get install -y php7.1 php7.1-cli php7.1-common php7.1-dom php7.1-mysql php7.1-xdebug php7.1-mcrypt php7.1-mbstring php7.1-zip php7.1-bcmath php7.1-ssh2 libapache2-mod-php7.1
 
 # Enabling apache mod Rewrite
 RUN a2enmod rewrite
